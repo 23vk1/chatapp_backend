@@ -129,7 +129,7 @@ const sendMessage = asyncHandler(async (req, res) => {
                 // Optional: delete file from local storage after upload
                 await fs.unlink(attachment.path);
             } catch (err) {
-                console.error("Cloudinary upload failed:", err);
+                console.error("Cloudinary    failed:", err);
             }
         }
     }
