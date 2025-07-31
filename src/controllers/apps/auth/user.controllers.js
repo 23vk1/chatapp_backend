@@ -9,11 +9,11 @@ import { User } from "../../../models/apps/auth/user.models.js";
 import { ApiError } from "../../../utils/ApiError.js";
 import { ApiResponse } from "../../../utils/ApiResponse.js";
 import { asyncHandler } from "../../../utils/asyncHandler.js";
-import {
-  getLocalPath,
-  getStaticFilePath,
-  removeLocalFile,
-} from "../../../utils/helpers.js";
+// import {
+  // getLocalPath,
+  // getStaticFilePath,
+  // removeLocalFile,
+// } from "../../../utils/helpers.js";
 
 
 const generateAccessAndRefreshTokens = async (userId) => {
@@ -423,8 +423,8 @@ const updateUserAvatar = asyncHandler(async (req, res) => {
   }
 
   // get avatar file system url and local path
-  const avatarUrl = getStaticFilePath(req, req.file?.filename);
-  const avatarLocalPath = getLocalPath(req.file?.filename);
+  // const avatarUrl = getStaticFilePath(req, req.file?.filename);
+  // const avatarLocalPath = getLocalPath(req.file?.filename);
 
   const user = await User.findById(req.user._id);
 
@@ -446,7 +446,7 @@ const updateUserAvatar = asyncHandler(async (req, res) => {
   );
 
   // remove the old avatar
-  removeLocalFile(user.avatar.localPath);
+  // removeLocalFile(user.avatar.localPath);
 
   return res
     .status(200)

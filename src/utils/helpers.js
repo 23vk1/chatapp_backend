@@ -40,13 +40,13 @@ export const getPaginatedPayload = (dataArray, page, limit) => {
     return payload;
 };
 
-export const getStaticFilePath = (req, fileName) => {
-    return `${req.protocol}://${req.get("host")}/images/${fileName}`;
-};
+// export const getStaticFilePath = (req, fileName) => {
+//     return `${req.protocol}://${req.get("host")}/images/${fileName}`;
+// };
 
-export const getLocalPath = (fileName) => {
-    return `public/images/${fileName}`;
-};
+// export const getLocalPath = (fileName) => {
+//     return `public/images/${fileName}`;
+// };
 
 
 export const removeLocalFile = (localPath) => {

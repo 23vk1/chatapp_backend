@@ -9,7 +9,7 @@ import { emitSocketEvent } from "../../../socket/index.js";
 import { ApiError } from "../../../utils/ApiError.js";
 import { ApiResponse } from '../../../utils/ApiResponse.js';
 import { asyncHandler } from "../../../utils/asyncHandler.js";
-import { removeLocalFile } from "../../../utils/helpers.js";
+// import { removeLocalFile } from "../../../utils/helpers.js";
 
 
 
@@ -91,9 +91,9 @@ const deleteCascadeChatMessages = async (chatId) => {
         })
     );
 
-    attachments.forEach((attachment) => {
-        removeLocalFile(attachment.localPath)
-    });
+    // attachments.forEach((attachment) => {
+    //     removeLocalFile(attachment.localPath)
+    // });
 
     await ChatMessage.deleteMany({
         chat: new mongoose.Types.ObjectId(chatId)

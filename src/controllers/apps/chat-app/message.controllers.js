@@ -6,11 +6,11 @@ import { emitSocketEvent } from "../../../socket/index.js";
 import { ApiError } from "../../../utils/ApiError.js";
 import { ApiResponse } from "../../../utils/ApiResponse.js";
 import { asyncHandler } from "../../../utils/asyncHandler.js";
-import {
-    getLocalPath,
-    getStaticFilePath,
-    removeLocalFile,
-} from "../../../utils/helpers.js";
+// import {
+    // getLocalPath,
+    // getStaticFilePath,
+    // removeLocalFile,
+// } from "../../../utils/helpers.js";
 
 import dotenv from 'dotenv';
 dotenv.config();
@@ -209,11 +209,11 @@ const deleteMessage = asyncHandler(async (req, res) => {
         throw new ApiError(403, "You are not the authorised to delete the message, you are not the sender");
     }
 
-    if (message.attachments.length > 0) {
-        message.attachments.map((asset) => {
-            removeLocalFile(asset.localPath);
-        });
-    }
+    // if (message.attachments.length > 0) {
+    //     message.attachments.map((asset) => {
+    //         removeLocalFile(asset.localPath);
+    //     });
+    // }
 
     await ChatMessage.deleteOne({
         _id: new mongoose.Types.ObjectId(messageId)
