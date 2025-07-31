@@ -12,6 +12,21 @@ import {
     removeLocalFile,
 } from "../../../utils/helpers.js";
 
+import dotenv from 'dotenv';
+dotenv.config();
+
+import { v2 as cloudinary } from "cloudinary";
+import fs from "fs/promises"; // for deleting local files
+
+// setup cloudinary config if not already done
+cloudinary.config({
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET,
+});
+
+
+
 const chatMessageCommonAggregation = () => {
     return [
         {
@@ -84,16 +99,41 @@ const sendMessage = asyncHandler(async (req, res) => {
         throw new ApiError(404, "Chat does not exist");
     }
 
+    // const messageFiles = [];
+
+    // if (req.files && req.files.attachments?.length > 0) {
+    //     req.files.attachments?.map((attachment) => {
+    //         messageFiles.push({
+    //             url: getStaticFilePath(req, attachment.filename),
+    //             localPath: getLocalPath(attachment.filename),
+    //         });
+    //     });
+    // }
+
+
     const messageFiles = [];
 
     if (req.files && req.files.attachments?.length > 0) {
-        req.files.attachments?.map((attachment) => {
-            messageFiles.push({
-                url: getStaticFilePath(req, attachment.filename),
-                localPath: getLocalPath(attachment.filename),
-            });
-        });
+        for (const attachment of req.files.attachments) {
+            try {
+                const result = await cloudinary.uploader.upload(attachment.path, {
+                    folder: "chat-app/messages",
+                    resource_type: "auto", // auto-detects images, video, etc.
+                });
+
+                messageFiles.push({
+                    url: result.secure_url,
+                    public_id: result.public_id, // optional: for deleting later
+                });
+
+                // Optional: delete file from local storage after upload
+                await fs.unlink(attachment.path);
+            } catch (err) {
+                console.error("Cloudinary upload failed:", err);
+            }
+        }
     }
+
 
 
     const message = await ChatMessage.create({
@@ -208,7 +248,7 @@ const deleteMessage = asyncHandler(async (req, res) => {
 });
 
 
-export { getAllMessages, sendMessage, deleteMessage}
+export { getAllMessages, sendMessage, deleteMessage }
 
 
 

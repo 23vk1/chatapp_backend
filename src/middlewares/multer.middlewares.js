@@ -19,7 +19,7 @@ const storage = multer.diskStorage({
             filenameWithoutExtention +
             Date.now() +
             Math.ceil(Math.random() * 1e5) +
-            fileExtention
+            fileExtention   
         );
     },
 });
@@ -27,7 +27,7 @@ const storage = multer.diskStorage({
 export const upload = multer({
     storage,
     limits: {
-        fileSize: 1 * 1000 * 1000,
+        fileSize: 10 * 1000 * 1000,
     },
 });
 

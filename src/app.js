@@ -5,16 +5,16 @@ import { createServer } from 'http';
 import { Server } from "socket.io";
 import morganMiddleware from './logger/morgan.logger.js'
 import { initializeSocketIO } from "./socket/index.js";
+import dotenv from 'dotenv';
+dotenv.config();
 
 
 const app = express();
 const httpServer = createServer(app);
-
 const io = new Server(httpServer, {
     pingTimeout :60000,
     cors : {
 		origin: process.env.FRONTEND_URI,
-		// origin: "c",
         credentials : true,
     },
 });
@@ -23,7 +23,6 @@ app.set("io", io);
 
 app.use(cors({
 	origin: process.env.FRONTEND_URI,
-    // origin : "http://localhost:3000",
     credentials : true,
 }));
 
